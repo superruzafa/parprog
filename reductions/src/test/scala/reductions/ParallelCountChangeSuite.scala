@@ -63,5 +63,39 @@ class ParallelCountChangeSuite extends FunSuite {
     check(250, List(1, 2, 5, 10, 20, 50), 177863)
   }
 
+  test("parCountChange works with base cases by itself") {
+    def check(money: Int, coins: List[Int], threshold: Threshold, expected: Int) =
+      assert(parCountChange(money, coins, threshold) == expected)
+
+    def noThreshold: Threshold = (_, _) => false
+
+    check(0, List(1, 2, 5), noThreshold, 1)
+    check(1, List(), noThreshold, 0)
+    check(-1, List(), noThreshold, 0)
+  }
+
+  test("parCountChange works without calling the sequential version") {
+    def check(money: Int, coins: List[Int], threshold: Threshold, expected: Int) =
+      assert(parCountChange(money, coins, threshold) == expected)
+
+    def noThreshold: Threshold = (_, _) => false
+
+    /*
+     * 4 possibilities:
+     *   1) 1 + 1 + 1 + 1 + 1
+     *   2) 1 + 1 + 1 + 2
+     *   3) 1 + 2 + 2
+     *   4) 5
+     */
+    check(5, List(1, 2, 5), noThreshold, 4)
+  }
+
+  test("parCountChange works calling the sequential version") {
+    def check(money: Int, coins: List[Int], threshold: Threshold, expected: Int) =
+      assert(parCountChange(money, coins, threshold) == expected)
+
+    def depthHalf: Threshold = (money, coins) => money <= 5
+    check(10, List(1), depthHalf, 1)
+  }
 
 }
