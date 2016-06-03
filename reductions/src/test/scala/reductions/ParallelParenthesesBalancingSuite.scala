@@ -45,5 +45,38 @@ class ParallelParenthesesBalancingSuite extends FunSuite {
     check(").", false)
   }
 
+  test("parBalanced should work for an empty string") {
+    assert(parBalance("".toArray, 1))
+    assert(parBalance("".toArray, 10))
+  }
+
+  test("parBalanced should work for a string of length 1") {
+    assert(!parBalance("(".toArray, 1))
+    assert(!parBalance("(".toArray, 10))
+    assert(!parBalance(")".toArray, 1))
+    assert(!parBalance(")".toArray, 10))
+    assert(parBalance("!".toArray, 1))
+    assert(parBalance("!".toArray, 10))
+  }
+
+  test("parBalanced should work for random strings") {
+    assert(parBalance("(())".toArray, 1))
+    assert(parBalance("(())".toArray, 2))
+    assert(parBalance("(())".toArray, 4))
+    assert(parBalance("(())".toArray, 8))
+
+    assert(!parBalance("))((".toArray, 1))
+    assert(!parBalance("))((".toArray, 2))
+    assert(!parBalance("))((".toArray, 4))
+    assert(!parBalance("))((".toArray, 8))
+
+    assert(parBalance("hola".toArray, 2))
+    assert(parBalance("ho()la".toArray, 2))
+    assert(!parBalance("h)(a".toArray, 2))
+    assert(!parBalance("(foo(".toArray, 2))
+    assert(!parBalance("(bar))".toArray, 2))
+    assert(!parBalance("(()))".toArray, 2))
+  }
+
 
 }
